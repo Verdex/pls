@@ -1,7 +1,7 @@
 
 using System.Collections.Immutable;
 
-namespace csr.core.parse;
+namespace Pls.Core.Pasing;
 
 public abstract record Result<T> {
     private Result() { }
