@@ -31,7 +31,7 @@ public abstract record Pattern<TId, TContent> where TContent : IMatchable<TId, T
     public record MatchWith(Func<IReadOnlyDictionary<string, TContent>, Pattern<TId, TContent>> Func) : Pattern<TId, TContent>;
 }
 
-public static class Pattern {
+public static class PatternExt {
     public static IEnumerable<IEnumerable<(string Name, TContent Item)>> Find<TId, TContent>(this TContent data, Pattern<TId, TContent> pattern) where TContent : IMatchable<TId, TContent> =>
         new PatternEnumerable<TId, TContent>(data, pattern);
 
