@@ -31,6 +31,22 @@ public abstract record Pattern<TId, TContent> where TContent : IMatchable<TId, T
     public record MatchWith(Func<IReadOnlyDictionary<string, TContent>, Pattern<TId, TContent>> Func) : Pattern<TId, TContent>;
 }
 
+public class PatternGen<TId, TContent> where TContent : IMatchable<TId, TContent> {
+    public Pattern<TId, TContent> Wild() => new Pattern<TId, TContent>.Wild();
+    public Pattern<TId, TContent> Exact(TId t, ImmutableList<Pattern<TId, TContent>> contents) => new Pattern<TId, TContent>.Exact(t, contents);
+    public Pattern<TId, TContent> Contents(ImmutableList<Pattern<TId, TContent>> contents) => new Pattern<TId, TContent>.Contents(contents);
+    public Pattern<TId, TContent> Kind(TId t) => new Pattern<TId, TContent>.Kind(t);
+    public Pattern<TId, TContent> And(Pattern<TId, TContent> a, Pattern<TId, TContent> b) => new Pattern<TId, TContent>.And(a, b);
+    public Pattern<TId, TContent> Or(Pattern<TId, TContent> a, Pattern<TId, TContent> b) => new Pattern<TId, TContent>.Or(a, b);
+    public Pattern<TId, TContent> Capture(string s) => new Pattern<TId, TContent>.Capture(s);
+    public Pattern<TId, TContent> TemplateVar(string s) => new Pattern<TId, TContent>.TemplateVar(s);
+    public Pattern<TId, TContent> SubContentPath(ImmutableList<Pattern<TId, TContent>> contents) => new Pattern<TId, TContent>.SubContentPath(contents);
+    public Pattern<TId, TContent> PathNext() => new Pattern<TId, TContent>.PathNext();
+    public Pattern<TId, TContent> Path(ImmutableList<Pattern<TId, TContent>> contents) => new Pattern<TId, TContent>.Path(contents);
+    public Pattern<TId, TContent> Predicate(Func<TContent, bool> predicate) => new Pattern<TId, TContent>.Predicate(predicate);
+    public Pattern<TId, TContent> MatchWith(Func<IReadOnlyDictionary<string, TContent>, Pattern<TId, TContent>> func) => new Pattern<TId, TContent>.MatchWith(func);
+}
+
 public static class PatternExt {
     public static IEnumerable<IEnumerable<(string Name, TContent Item)>> Find<TId, TContent>(this TContent data, Pattern<TId, TContent> pattern) where TContent : IMatchable<TId, TContent> =>
         new PatternEnumerable<TId, TContent>(data, pattern);
