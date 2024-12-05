@@ -11,6 +11,8 @@ public interface IMatchable<TId, TContent> {
 public abstract record Pattern<TId, TContent> where TContent : IMatchable<TId, TContent> {
     private Pattern() { }
 
+    public record Atom(TContent C) : Pattern<TId, TContent>;
+
     public record Wild : Pattern<TId, TContent>;
 
     public record Capture(string Name) : Pattern<TId, TContent>;
@@ -91,6 +93,18 @@ public static class PatternExt {
                 var (data, pattern) = _work.Pop();
                 switch (pattern) {
                     case Pattern<TId, TContent>.Wild: break;
+
+                    case Pattern<TId, TContent>.Atom a: {
+                        if (!a.Equals(data)) {
+                            if (_alternatives.Count > 0) {
+                                SwitchToAlternative();
+                            }
+                            else {
+                                return false;
+                            }
+                        }
+                        break;
+                    }
 
                     case Pattern<TId, TContent>.Capture c:
                         _captures.Add((c.Name, data));
