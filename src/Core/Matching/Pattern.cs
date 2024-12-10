@@ -8,8 +8,69 @@ public interface IMatchable<TId, TContent> {
     void Deconstruct(out TId id, out IEnumerable<TContent> contents);
 }
 
-public abstract record Pattern<TId, TContent> where TContent : IMatchable<TId, TContent> {
+public abstract record Pattern<TId, TContent> : IMatchable<string, Pattern<TId, TContent>> where TContent : IMatchable<TId, TContent> {
     private Pattern() { }
+
+    public void Deconstruct(out string id, out IEnumerable<Pattern<TId, TContent>> contents) {
+        switch (this) {
+            case Pattern<TId, TContent>.Atom x: 
+                id = "atom";
+                contents = [];
+                break;
+            case Pattern<TId, TContent>.Wild:
+                id = "wild";
+                contents = [];
+                break;
+            case Pattern<TId, TContent>.Capture x:
+                id = "capture";
+                contents = [];
+                break;
+            case Pattern<TId, TContent>.TemplateVar x:
+                id = "template";
+                contents = [];
+                break;
+            case Pattern<TId, TContent>.Exact x:
+                id = "exact";
+                contents = [];
+                break;
+            case Pattern<TId, TContent>.Contents x:
+                id = "contents";
+                contents = [];
+                break;
+            case Pattern<TId, TContent>.Kind x:
+                id = "kind";
+                contents = [];
+                break;
+            case Pattern<TId, TContent>.And x:
+                id = "and";
+                contents = [];
+                break;
+            case Pattern<TId, TContent>.Or x:
+                id = "or";
+                contents = [];
+                break;
+            case Pattern<TId, TContent>.PathNext:
+                id = "next";
+                contents = [];
+                break;
+            case Pattern<TId, TContent>.Path x:
+                id = "path";
+                contents = [];
+                break;
+            case Pattern<TId, TContent>.SubContentPath x:
+                id = "subcontent";
+                contents = [];
+                break;
+            case Pattern<TId, TContent>.Predicate x:
+                id = "predicate";
+                contents = [];
+                break;
+            case Pattern<TId, TContent>.MatchWith x:
+                id = "matchwith";
+                contents = [];
+                break;
+        }
+    }
 
     public record Atom(TContent C) : Pattern<TId, TContent>;
 
