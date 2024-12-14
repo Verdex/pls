@@ -31,11 +31,11 @@ public abstract record Pattern<TId, TContent> : IMatchable<string, Pattern<TId, 
                 break;
             case Pattern<TId, TContent>.Exact x:
                 id = "exact";
-                contents = [];
+                contents = x.Cs;
                 break;
             case Pattern<TId, TContent>.Contents x:
                 id = "contents";
-                contents = [];
+                contents = x.Cs;
                 break;
             case Pattern<TId, TContent>.Kind x:
                 id = "kind";
@@ -43,11 +43,11 @@ public abstract record Pattern<TId, TContent> : IMatchable<string, Pattern<TId, 
                 break;
             case Pattern<TId, TContent>.And x:
                 id = "and";
-                contents = [];
+                contents = [x.Left, x.Right];
                 break;
             case Pattern<TId, TContent>.Or x:
                 id = "or";
-                contents = [];
+                contents = [x.Left, x.Right];
                 break;
             case Pattern<TId, TContent>.PathNext:
                 id = "next";
@@ -55,11 +55,11 @@ public abstract record Pattern<TId, TContent> : IMatchable<string, Pattern<TId, 
                 break;
             case Pattern<TId, TContent>.Path x:
                 id = "path";
-                contents = [];
+                contents = x.Ps;
                 break;
             case Pattern<TId, TContent>.SubContentPath x:
                 id = "subcontent";
-                contents = [];
+                contents = x.Ps;
                 break;
             case Pattern<TId, TContent>.Predicate x:
                 id = "predicate";
@@ -69,6 +69,8 @@ public abstract record Pattern<TId, TContent> : IMatchable<string, Pattern<TId, 
                 id = "matchwith";
                 contents = [];
                 break;
+            default:
+                throw new NotImplementedException($"Unsupported {this.GetType()} encountered");
         }
     }
 
