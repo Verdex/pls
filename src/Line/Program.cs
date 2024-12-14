@@ -31,9 +31,9 @@ public static class Program {
 */
 
     public static void Main() {
-        var gen = new PatternGen<string, Blarg>();
+        var gen = new PatternGen<string, Pattern<string, Blarg>>();
 
-        var db = new Blarg("db", []);
+        /*var db = new Blarg("db", []);
         List<string> cats = ["lynx", "bob", "tiger"];
         db.Bs.AddRange(cats.Select(x => new Blarg("cat", [new Blarg(x, [])])));
 
@@ -45,6 +45,6 @@ public static class Program {
                 Console.WriteLine($"{kvp.Key} => {kvp.Value}");
             }
             Console.WriteLine("===");
-        }
+        }*/
     }
 }
